@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Foerst</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="../css/mui.min.css">
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <style>
+    .mui-media-body {
+        line-height: 42px;
+    }
+    
+    .mui-media-body > span {
+        margin-left: 8rem;
+    }
+    
+    li {
+        /*color:#fff;*/
+        margin-bottom: 5px;
+    }
+    
+    .amount {
+        position: absolute;
+        /*top: 50%;*/
+        right: 20%;
+    }
+    
+    .inquiry_btn,
+    .visitorReg_btn {
+        width: 50%;
+        border: 1px solid #5BAEF5;
+        border-radius: 3px;
+        padding: 8px 10px;
+        text-align: center;
+        margin: 5% auto;
+        background-color: #5BAEF5;
+        color: #fff;
+        font-family: "microsoft yahei";
+    }
+    </style>
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <!--<a class="mui-icon mui-icon-plus mui-pull-right" id="xin"></a>-->
+        <h1 class="mui-title">访客管理</h1>
+    </header>
+    <div class="mui-content">
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell mui-media">
+                <a class="mui-navigate-right" id="booked">
+                    <!--<img class="mui-media-object mui-pull-left" src="../images/5.png">-->
+                    <div class="mui-media-body">
+                        已预约<span class="amount">21</span>
+                    </div>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a class="mui-navigate-right" id="entered">
+                    <div class="mui-media-body">
+                        已进厂<span class="amount">18</span>
+                    </div>
+                </a>
+            </li>
+            <!--<li class="mui-table-view-cell mui-media">
+                <a id="">
+                    <div class="mui-media-body">访客查询</div>
+                </a>
+            </li>-->
+        </ul>
+        <div class="visitorReg_btn" id="addvisitors">访客预约</div>
+        <div class="inquiry_btn" id="visitor_inquiry">访客查询</div>
+    </div>
+    <script src="../js/mui.min.js"></script>
+    <script>
+    (function($, doc) {
+        $.init();
+        $.plusReady(function() {
+            var booked = doc.getElementById('booked');
+            var entered = doc.getElementById('entered');
+            var visitor_inquiry = doc.getElementById('visitor_inquiry');
+            booked.addEventListener('tap', function(event) {
+                $.openWindow({
+                    url: 'booked.html',
+                    id: 'booked',
+                    show: {
+                        aniShow: 'pop-in'
+                    },
+                    waiting: {
+                        autoShow: false
+                    }
+                });
+            });
+            entered.addEventListener('tap', function(event) {
+                $.openWindow({
+                    url: 'entered.html',
+                    id: 'entered',
+                    show: {
+                        aniShow: 'pop-in'
+                    },
+                    waiting: {
+                        autoShow: false
+                    }
+                });
+            });
+            addvisitors.addEventListener('tap', function(event) {
+                $.openWindow({
+                    url: 'addvisitors.html',
+                    id: 'addvisitors',
+                    show: {
+                        aniShow: 'pop-in'
+                    },
+                    waiting: {
+                        autoShow: false
+                    }
+                });
+            });            
+            visitor_inquiry.addEventListener('tap', function(event) {
+                $.openWindow({
+                    url: 'visitor_inquiry.html',
+                    id: 'visitor_inquiry',
+                    show: {
+                        aniShow: 'pop-in'
+                    },
+                    waiting: {
+                        autoShow: false
+                    }
+                });
+            });
+        });
+
+        //初始化预加载详情页面
+        mui.init({
+            preloadPages: [{
+                id: 'devicelist',
+                url: 'devicelist.html'
+            }]
+        });
+
+        var listPage = null;
+        //添加列表项的点击事件
+        mui('.mui-content').on('tap', '.mui-table-view-cell a', function(e) {
+            var id = this.getAttribute('id');
+            //获得详情页面
+            if (!listPage) {
+                listPage = plus.webview.getWebviewById('devicelist');
+                //alert(detailPage);
+            }
+            //触发详情页面的newsId事件
+            mui.fire(listPage, 'listId', {
+                id: id
+            });
+
+
+            //打开详情页面
+            //mui.openWindow({
+            //  id:'devicelist',
+            //  url:'devicelist.html'
+            //});
+        });
+
+
+    }(mui, document));
+    </script>
+</body>
+
+</html>
